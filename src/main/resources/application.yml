@@ -1,0 +1,53 @@
+spring:
+
+  application:
+    name: offer-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sa-comercializacao?ApplicationName=sa-comercializacao-query-svc-java
+    username: postgres
+    password: totvs@123
+    hikari:
+      minimum-idle: 0
+      maximum-pool-size: 18
+      idle-timeout: 100000
+      connection-timeout: 200000
+      max-lifetime: 300000
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+      auto-commit: false
+      data-source-properties:
+        useServerPrepStmts: false
+        cachePrepStmts: true
+        prepStmtCacheSize: 500
+        prepStmtCacheSqlLimit: 1024
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        implicit-strategy: jpa
+    properties:
+      # org.hibernate.cfg.AvailableSettings
+      hibernate:
+        types:
+          print:
+            banner: false
+        cache:
+          '[use_second_level_cache]': false
+        connection:
+          '[provider_disables_autocommit]': true
+        jdbc:
+          '[batch_size]': 30
+          '[batch_versioned_data]': true
+          '[time_zone]': UTC
+        '[order_inserts]': true
+        '[order_updates]': true
+        query:
+          '[in_clause_parameter_padding]': true
+          '[fail_on_pagination_over_collection_fetch]': true
+          '[plan_cache_max_size]': 4096
+        session:
+          events:
+            log:
+              '[LOG_QUERIES_SLOWER_THAN_MS]': 450
