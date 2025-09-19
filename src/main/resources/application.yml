@@ -51,3 +51,11 @@ spring:
           events:
             log:
               '[LOG_QUERIES_SLOWER_THAN_MS]': 450
+
+# Configuração do SpringDoc para APIs REST
+springdoc:
+  info:
+    title: "Offer App API"
+    description: "API para sistema de ofertas e leilões"
+  swagger-ui:
+    path: /swagger-ui.html
