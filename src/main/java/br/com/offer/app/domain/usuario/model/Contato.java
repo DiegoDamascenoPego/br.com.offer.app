@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import br.com.offer.app.domain.sk.TipoContato;
 
@@ -20,27 +21,33 @@ import br.com.offer.app.domain.sk.TipoContato;
 @NoArgsConstructor(access = PROTECTED, force = true)
 
 @Entity
-@Table(name = "pessoa_contato")
-public class Contato {
+@Table(name = "usuario_contato")
+public class Contato extends AbstractAggregateRoot<Contato> {
 
     @EmbeddedId
     @AttributeOverride(name = ContatoId.ATTR, column = @Column(name = "id"))
     private final ContatoId id;
 
+    // Referência ao agregado raiz
+    @AttributeOverride(name = UsuarioId.ATTR, column = @Column(name = "usuario_id", nullable = false))
+    private final UsuarioId usuarioId;
+
     private final TipoContato tipo;
 
     @NotBlank(message = "{ValorContato.NotBlank}")
     @Size(max = 256, message = "{ValorContato.Size}")
-    @Column(name = "contato")
+    @Column(name = "valor")
     private final String valor;
 
-    public Contato(final ContatoId id, final TipoContato tipo, final String valor) {
+    public Contato(final ContatoId id, final UsuarioId usuarioId, final TipoContato tipo, final String valor) {
         this.id = requireNonNull(id);
+        this.usuarioId = requireNonNull(usuarioId);
         this.tipo = requireNonNull(tipo);
         this.valor = requireNonNull(valor);
     }
 
-    public static Contato of(final TipoContato tipo, final String valor) {
-        return new Contato(ContatoId.generate(), tipo, valor);
+    public static ContatoBuilder builder() {
+        return new ContatoBuilder();
     }
+
 }

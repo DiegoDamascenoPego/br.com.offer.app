@@ -19,4 +19,6 @@ public interface UsuarioDomainRepository extends Repository<Usuario, UsuarioId> 
     }
 
     boolean existsByDocumentoAndIdNot(Documento documento, UsuarioId id);
+
+    boolean existsByIdAndDeletedFalse(UsuarioId id);
 }

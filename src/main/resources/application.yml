@@ -1,9 +1,14 @@
 spring:
-
   application:
     name: offer-app
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    clean-disabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/sa-comercializacao?ApplicationName=sa-comercializacao-query-svc-java
+    url: jdbc:postgresql://localhost:5432/offer?ApplicationName=offer-app
     username: postgres
     password: totvs@123
     hikari:
@@ -51,6 +56,39 @@ spring:
           events:
             log:
               '[LOG_QUERIES_SLOWER_THAN_MS]': 450
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: offer
+            client-secret: kMKhNnuwv5kR4wtyP3FfjdwnSFxHHBJD
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:7080/realms/master
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7080/realms/master
+          jwk-set-uri: http://localhost:7080/realms/master/protocol/openid-connect/certs
+
+    jwt:
+      auth:
+        converter:
+          resource-id: offer
+          principle-attribute: preferred_username
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+
+
 
 # Configuração do SpringDoc para APIs REST
 springdoc:
@@ -59,3 +97,4 @@ springdoc:
     description: "API para sistema de ofertas e leilões"
   swagger-ui:
     path: /swagger-ui.html
+

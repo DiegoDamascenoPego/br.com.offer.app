@@ -4,16 +4,11 @@ import static br.com.offer.app.domain.usuario.usecase.RegistrarUsuarioUseCase.Us
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PROTECTED;
 
-import java.util.Set;
-
 import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -24,15 +19,13 @@ import lombok.NoArgsConstructor;
 
 import br.com.offer.app.domain.sk.Documento;
 import br.com.offer.app.domain.sk.Nome;
-import br.com.offer.app.domain.sk.TipoContato;
-import br.com.offer.app.domain.usuario.usecase.RegistrarContatoUseCase;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED, force = true)
 
 @DynamicUpdate
 @Entity
-@Table(name = "pessoa")
+@Table(name = "usuario")
 public class Usuario extends AbstractAggregateRoot<Usuario> {
 
     @EmbeddedId
@@ -44,14 +37,11 @@ public class Usuario extends AbstractAggregateRoot<Usuario> {
     private Documento documento;
 
     @Enumerated
+    @Column(name = "tipo_usuario")
     private TipoUsuario tipo;
 
-    @ElementCollection
-    @CollectionTable(name = "contrato_analise_qualidade", joinColumns = @JoinColumn(name = "pessoa_id"))
-    Set<Contato> contatos;
-
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private boolean deleted;
 
     public static UsuarioBuilder builder() {
         return new UsuarioBuilder();
@@ -64,22 +54,5 @@ public class Usuario extends AbstractAggregateRoot<Usuario> {
         this.tipo = requireNonNull(builder.tipo);
 
         registerEvent(UsuarioRegistrado.from(this));
-    }
-
-    public UsuarioBuilderUpdate alterar() {
-        return new UsuarioBuilderUpdate(id, form -> {
-            nome = requireNonNull(form.getNome());
-            documento = requireNonNull(form.getDocumento());
-            tipo = requireNonNull(form.getTipo());
-        });
-    }
-
-    public void remover() {
-        this.deleted = true;
-    }
-
-    public void registrarContato(TipoContato tipo, String contato) {
-        contatos.add(Contato.of(tipo, contato));
-        registerEvent(RegistrarContatoUseCase.ContatoRegistrado.from(this));
     }
 }

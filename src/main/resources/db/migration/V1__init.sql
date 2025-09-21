@@ -1,10 +1,25 @@
-CREATE TABLE IF NOT EXISTS pessoa_endereco (
+CREATE TABLE IF NOT EXISTS usuario (
     id uuid NOT NULL,
     row_version int2 DEFAULT 0 NOT NULL,
     row_created_at timestamp DEFAULT now() NOT NULL,
     row_updated_at timestamp DEFAULT now() NOT NULL,
 
-    pessoa_id uuid NOT NULL,
+    nome varchar(256) NOT NULL,
+    documento varchar(32) NOT NULL,
+    tipo_usuario varchar(32) NOT NULL,
+    deleted bool DEFAULT false NOT NULL,
+
+    CONSTRAINT usuario_pk PRIMARY KEY (id),
+    CONSTRAINT uk_usuario_documento UNIQUE (documento)
+);
+
+CREATE TABLE IF NOT EXISTS usuario_endereco (
+    id uuid NOT NULL,
+    row_version int2 DEFAULT 0 NOT NULL,
+    row_created_at timestamp DEFAULT now() NOT NULL,
+    row_updated_at timestamp DEFAULT now() NOT NULL,
+
+    usuario_id uuid NOT NULL,
     logradouro varchar(256) NULL,
     numero varchar(32) NULL,
     complemento varchar(128) NULL,
@@ -15,23 +30,23 @@ CREATE TABLE IF NOT EXISTS pessoa_endereco (
     pais varchar(64) NULL,
     deleted bool DEFAULT false NOT NULL,
 
-    CONSTRAINT pessoa_endereco_pk PRIMARY KEY (id),
-    CONSTRAINT fk_pessoa_endereco_pessoa FOREIGN KEY (pessoa_id) REFERENCES pessoa(id)
+    CONSTRAINT usuario_endereco_pk PRIMARY KEY (id),
+    CONSTRAINT fk_usuario_endereco_usuario_id FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 
-CREATE TABLE IF NOT EXISTS pessoa_contato (
+CREATE TABLE IF NOT EXISTS usuario_contato (
     id uuid NOT NULL,
     row_version int2 DEFAULT 0 NOT NULL,
     row_created_at timestamp DEFAULT now() NOT NULL,
     row_updated_at timestamp DEFAULT now() NOT NULL,
 
-    pessoa_id uuid NOT NULL,
+    usuario_id uuid NOT NULL,
     tipo varchar(64) NOT NULL,
     contato varchar(256) NOT NULL,
     deleted bool DEFAULT false NOT NULL,
 
-    CONSTRAINT pessoa_contato_pk PRIMARY KEY (id),
-    CONSTRAINT fk_pessoa_contato_pessoa FOREIGN KEY (pessoa_id) REFERENCES pessoa(id)
+    CONSTRAINT usuario_contato_pk PRIMARY KEY (id),
+    CONSTRAINT fk_usuario_contato_usuario_id FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 
 
@@ -71,7 +86,7 @@ CREATE TABLE IF NOT EXISTS leilao (
     objeto_id uuid NOT NULL,
     descricao varchar(128) NOT NULL,
     observacao varchar(128) NULL,
-    localizacao geometry NULL,
+    localizacao varchar(256) NULL,
     lance_final decimal(9,2) NULL,
     lote varchar(64) NOT NULL,
     inicio timestamp NOT NULL,
@@ -89,26 +104,12 @@ CREATE TABLE IF NOT EXISTS lance (
     row_created_at timestamp DEFAULT now() NOT NULL,
 
     leilao_id uuid NOT NULL,
-    pessoa_id uuid NOT NULL,
+    usuario_id uuid NOT NULL,
     valor numeric(10,4) NOT NULL,
     moeda varchar(3) NOT NULL,
 
     CONSTRAINT lance_pk PRIMARY KEY (id),
     CONSTRAINT fk_lance_leilao FOREIGN KEY (leilao_id) REFERENCES leilao(id),
-    CONSTRAINT fk_lance_pessoa FOREIGN KEY (pessoa_id) REFERENCES pessoa(id),
+    CONSTRAINT fk_lance_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id),
     CONSTRAINT ck_lance_moeda CHECK (moeda IN ('USD', 'BRL'))
-);
-
-CREATE TABLE IF NOT EXISTS pessoa (
-    id uuid NOT NULL,
-    row_version int2 DEFAULT 0 NOT NULL,
-    row_created_at timestamp DEFAULT now() NOT NULL,
-    row_updated_at timestamp DEFAULT now() NOT NULL,
-
-    nome varchar(256) NOT NULL,
-    documento varchar(128) NOT NULL,
-    tipo varchar(64) NOT NULL,
-    deleted bool DEFAULT false NOT NULL,
-
-    CONSTRAINT pessoa_pk PRIMARY KEY (id)
 );

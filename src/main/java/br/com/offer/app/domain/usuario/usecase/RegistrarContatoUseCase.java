@@ -2,8 +2,6 @@ package br.com.offer.app.domain.usuario.usecase;
 
 import static lombok.AccessLevel.PRIVATE;
 
-import java.util.Set;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,17 +11,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Builder;
 import lombok.Value;
+import lombok.With;
 
-import br.com.offer.app.domain.sk.Documento;
-import br.com.offer.app.domain.sk.Nome;
 import br.com.offer.app.domain.sk.TipoContato;
-import br.com.offer.app.domain.usuario.model.Contato;
-import br.com.offer.app.domain.usuario.model.Usuario;
+import br.com.offer.app.domain.usuario.model.ContatoId;
 import br.com.offer.app.domain.usuario.model.UsuarioId;
 
 public interface RegistrarContatoUseCase {
 
-    void handle(RegistrarContato command);
+    ContatoId handle(RegistrarContato command);
 
     void on(ContatoRegistrado event);
 
@@ -31,10 +27,9 @@ public interface RegistrarContatoUseCase {
     @Builder
     class RegistrarContato {
 
-        @Valid
-        @NotNull(message = "{Contato.pessoaId.NotNull}")
+        @With
         @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-        UsuarioId usuarioId;
+        UsuarioId usuario;
 
         @Valid
         @NotNull(message = "{Contato.tipo.NotNull}")
@@ -51,20 +46,17 @@ public interface RegistrarContatoUseCase {
     @Builder(access = PRIVATE)
     class ContatoRegistrado {
 
-        UsuarioId id;
+        ContatoId contatoId;
+        UsuarioId usuarioId;
+        TipoContato tipo;
+        String valor;
 
-        Nome nome;
-
-        Documento documento;
-
-        Set<Contato> contatos;
-
-        public static ContatoRegistrado from(Usuario usuario) {
+        public static ContatoRegistrado from(ContatoId contatoId, UsuarioId usuarioId, TipoContato tipo, String valor) {
             return ContatoRegistrado.builder()
-                .id(usuario.getId())
-                .nome(usuario.getNome())
-                .documento(usuario.getDocumento())
-                .contatos(usuario.getContatos())
+                .contatoId(contatoId)
+                .usuarioId(usuarioId)
+                .tipo(tipo)
+                .valor(valor)
                 .build();
         }
     }

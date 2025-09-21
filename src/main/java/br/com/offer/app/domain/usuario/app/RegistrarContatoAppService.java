@@ -6,8 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
+import br.com.offer.app.domain.usuario.model.Contato;
 import br.com.offer.app.domain.usuario.model.ContatoId;
-import br.com.offer.app.domain.usuario.model.Usuario;
+import br.com.offer.app.domain.usuario.repository.ContatoRepository;
 import br.com.offer.app.domain.usuario.repository.UsuarioDomainRepository;
 import br.com.offer.app.domain.usuario.usecase.RegistrarContatoUseCase;
 
@@ -17,16 +18,22 @@ import br.com.offer.app.domain.usuario.usecase.RegistrarContatoUseCase;
 @Transactional
 public class RegistrarContatoAppService implements RegistrarContatoUseCase {
 
-    private final UsuarioDomainRepository repository;
+    private final ContatoRepository repository;
+    private final UsuarioDomainRepository usuarioDomainRepository;
 
     @Override
-    public void handle(RegistrarContato command) {
+    public ContatoId handle(RegistrarContato command) {
 
-        final Usuario usuario = repository.get(command.getUsuarioId());
+        final Contato contato = Contato.builder()
+            .tipo(command.getTipo())
+            .valor(command.getContato())
+            .usuario(command.getUsuario())
+            .usuarioExistscontraint(usuarioDomainRepository::existsByIdAndDeletedFalse)
+            .build();
 
-        usuario.registrarContato(command.getTipo(), command.getContato());
+        repository.save(contato);
 
-        repository.save(usuario);
+        return contato.getId();
     }
 
     @Override

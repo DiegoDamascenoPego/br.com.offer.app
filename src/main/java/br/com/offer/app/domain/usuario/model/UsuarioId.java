@@ -1,21 +1,33 @@
 package br.com.offer.app.domain.usuario.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.UUID;
+import java.util.function.Predicate;
+
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
-import java.util.UUID;
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Value
-@AllArgsConstructor
+
 @Embeddable
 @Schema(type = "string", format = "uuid", description = "Identificador único do usuário")
 public class UsuarioId {
 
     public static final String ATTR = "id";
 
+    @JsonValue
     UUID id;
+
+    private UsuarioId(final UUID id) {
+        this.id = id;
+    }
 
     public static UsuarioId generate() {
         return new UsuarioId(UUID.randomUUID());
@@ -27,6 +39,11 @@ public class UsuarioId {
 
     public String asString() {
         return id.toString();
+    }
+
+    public void applyExistsConstraint(Predicate<UsuarioId> constraint) {
+        if (!constraint.test(this))
+            throw notFoundException();
     }
 
     public RuntimeException notFoundException() {
