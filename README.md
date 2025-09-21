@@ -33,11 +33,11 @@ sudo yum install postgresql-server postgresql-contrib
 ### 2. Configuração do Banco
 ```sql
 -- Criar banco de dados
-CREATE DATABASE "sa-comercializacao";
+CREATE DATABASE "offer";
 
 -- Criar usuário (se necessário)
 CREATE USER postgres WITH PASSWORD 'xxx@123';
-GRANT ALL PRIVILEGES ON DATABASE "sa-comercializacao" TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE "offer" TO postgres;
 ```
 
 ### 3. Configuração da Aplicação
