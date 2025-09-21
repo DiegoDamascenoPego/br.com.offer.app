@@ -36,15 +36,15 @@ sudo yum install postgresql-server postgresql-contrib
 CREATE DATABASE "sa-comercializacao";
 
 -- Criar usuário (se necessário)
-CREATE USER postgres WITH PASSWORD 'totvs@123';
+CREATE USER postgres WITH PASSWORD 'xxx@123';
 GRANT ALL PRIVILEGES ON DATABASE "sa-comercializacao" TO postgres;
 ```
 
 ### 3. Configuração da Aplicação
 O arquivo `application.yml` já está configurado com:
-- URL: `jdbc:postgresql://localhost:5432/sa-comercializacao`
+- URL: `jdbc:postgresql://localhost:5432/offer`
 - Usuário: `postgres`
-- Senha: `totvs@123`
+- Senha: `xxx@123`
 
 ## Como Executar
 
