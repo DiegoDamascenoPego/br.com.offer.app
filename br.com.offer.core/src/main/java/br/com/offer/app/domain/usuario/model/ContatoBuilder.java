@@ -5,18 +5,12 @@ import java.util.function.Predicate;
 import br.com.offer.app.domain.sk.TipoContato;
 
 public class ContatoBuilder {
-    private ContatoId id;
     private UsuarioId usuario;
     private TipoContato tipo;
     private String valor;
     private Predicate<UsuarioId> usuarioExistscontraint;
 
     ContatoBuilder() {
-    }
-
-    public ContatoBuilder id(final ContatoId id) {
-        this.id = id;
-        return this;
     }
 
     public ContatoBuilder usuario(final UsuarioId usuarioId) {
@@ -44,6 +38,6 @@ public class ContatoBuilder {
 
         usuario.applyExistsConstraint(usuarioExistscontraint);
 
-        return new Contato(id, usuario, tipo, valor);
+        return new Contato(ContatoId.generate(), usuario, tipo, valor);
     }
 }

@@ -36,7 +36,7 @@ public class Contato extends AbstractAggregateRoot<Contato> {
 
     @NotBlank(message = "{ValorContato.NotBlank}")
     @Size(max = 256, message = "{ValorContato.Size}")
-    @Column(name = "valor")
+    @Column(name = "contato")
     private final String valor;
 
     public Contato(final ContatoId id, final UsuarioId usuarioId, final TipoContato tipo, final String valor) {

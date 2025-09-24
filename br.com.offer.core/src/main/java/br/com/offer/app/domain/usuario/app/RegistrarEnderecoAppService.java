@@ -24,6 +24,7 @@ public class RegistrarEnderecoAppService implements RegistrarEnderecoUseCase {
     public EnderecoId handle(RegistrarEndereco command) {
 
         Endereco endereco = Endereco.builder()
+            .usuarioId(command.getUsuario())
             .cep(command.getCep())
             .pais(command.getPais())
             .estado(command.getEstado())

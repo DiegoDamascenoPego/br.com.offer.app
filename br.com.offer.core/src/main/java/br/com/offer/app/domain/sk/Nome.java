@@ -7,14 +7,18 @@ import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@Value
+
 @Embeddable
-public class Nome {
+@Schema(description = "Nome", type = "string", example = "João da Silva", maxLength = 256)
+public class Nome extends SimpleValueObject<String> {
 
     public static final String ATTR = "value";
 
@@ -22,9 +26,9 @@ public class Nome {
     @Size(max = 256, message = "{Nome.Size}")
     @Column(name = "nome")
     @JsonValue
-    String value;
+    final String value;
 
-    public Nome(final String value) {
+    private Nome(final String value) {
         this.value = value;
     }
 

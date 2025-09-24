@@ -6,14 +6,18 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +34,19 @@ public class SpringDocConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
             .info(this.getInfo())
-            .externalDocs(new ExternalDocumentation());
+            .externalDocs(new ExternalDocumentation()
+                .description("Documentação completa")
+                .url("https://github.com/DiegoDamascenoPego/br.com.offer.app"))
+            .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+            .components(new Components()
+                .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                    .type(SecurityScheme.Type.HTTP)
+                    .scheme("bearer")
+                    .bearerFormat("JWT")
+                    .in(SecurityScheme.In.HEADER)
+                    .name("Authorization")
+                )
+            );
     }
 
     @Bean
@@ -69,7 +85,11 @@ public class SpringDocConfig {
         return new Info()
             .version("1.0.0")
             .title(this.infoProperties.getTitle())
-            .description(this.infoProperties.getDescription());
+            .description(this.infoProperties.getDescription())
+            .version("1.0.0")
+            .license(new License()
+                .name("Apache 2.0")
+                .url("http://springdoc.org"));
     }
 
     @Bean

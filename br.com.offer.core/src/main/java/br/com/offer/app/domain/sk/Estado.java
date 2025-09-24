@@ -1,5 +1,6 @@
 package br.com.offer.app.domain.sk;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.Size;
 
@@ -8,34 +9,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@EqualsAndHashCode
-@ToString
 
 @Embeddable
 @Schema(description = "Estado do endereço", example = "SP", type = "string", maxLength = 2)
-public class Estado {
+public class Estado extends SimpleValueObject<String> {
 
     public static final String ATTR = "estado";
 
     @Size(max = 2, message = "{Estado.Size}")
+    @Column(name = "estado")
     @JsonValue
-    private final String estado;
+    private final String value;
 
     private Estado(String estado) {
-        this.estado = estado != null ? estado.trim().toUpperCase() : null;
+        this.value = estado;
     }
 
     public static Estado from(String estado) {
         return new Estado(estado);
     }
 
+
     public String asString() {
-        return estado;
+        return value;
     }
 }

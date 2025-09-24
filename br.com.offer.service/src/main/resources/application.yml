@@ -95,6 +95,9 @@ springdoc:
   info:
     title: "Offer App API"
     description: "API para sistema de ofertas e leilões"
+    version: "1.0.0"
   swagger-ui:
     path: /swagger-ui.html
-
+  api-docs:
+    version: openapi_3_0
+  writer-with-order-by-keys: true
