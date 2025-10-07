@@ -3,6 +3,7 @@ version: '1'
 services:
   offer-keycloak:
     image: quay.io/keycloak/keycloak:latest
+    restart: unless-stopped
     environment:
       KC_HOSTNAME: localhost
       KC_HOSTNAME_PORT: 7080

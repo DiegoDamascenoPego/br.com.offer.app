@@ -1,4 +1,4 @@
-package br.com.offer.app.infra.openapi;
+package br.com.offer.infra.openapi;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

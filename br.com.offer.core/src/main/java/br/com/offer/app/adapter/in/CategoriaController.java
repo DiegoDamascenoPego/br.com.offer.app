@@ -1,4 +1,4 @@
-package br.com.offer.app.adpater.in;
+package br.com.offer.app.adapter.in;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
@@ -20,7 +20,7 @@ import br.com.offer.app.domain.categoria.usecase.RegistrarCategoriaUseCase.Regis
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/api/v1/categorias", produces = APPLICATION_JSON_VALUE)
-@Tag(name = "Categoria", description = "API de Categoria")
+@Tag(name = "Categorias", description = "API de Categoria")
 public class CategoriaController {
 
     private final RegistrarCategoriaUseCase registrarCategoriaUseCase;

@@ -81,6 +81,29 @@ spring:
           resource-id: offer
           principle-attribute: preferred_username
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    connection-timeout: 30000
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 3
+          multiplier: 2
+  cloud:
+    function:
+      definition:
+    stream:
+      bindings: {}
+
 logging:
   level:
     org:

@@ -1,4 +1,4 @@
-package br.com.offer.app.infra.security;
+package br.com.offer.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package br.com.offer.app.adpater.in;
+package br.com.offer.app.adapter.in;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;

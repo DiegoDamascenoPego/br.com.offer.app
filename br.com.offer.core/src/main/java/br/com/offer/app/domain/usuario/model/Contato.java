@@ -7,13 +7,16 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import org.springframework.data.domain.AbstractAggregateRoot;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 import br.com.offer.app.domain.sk.TipoContato;
 
@@ -28,10 +31,10 @@ public class Contato extends AbstractAggregateRoot<Contato> {
     @AttributeOverride(name = ContatoId.ATTR, column = @Column(name = "id"))
     private final ContatoId id;
 
-    // Referência ao agregado raiz
     @AttributeOverride(name = UsuarioId.ATTR, column = @Column(name = "usuario_id", nullable = false))
     private final UsuarioId usuarioId;
 
+    @Enumerated(EnumType.STRING)
     private final TipoContato tipo;
 
     @NotBlank(message = "{ValorContato.NotBlank}")

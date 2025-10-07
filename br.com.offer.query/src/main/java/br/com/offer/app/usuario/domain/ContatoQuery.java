@@ -11,8 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import org.springframework.data.annotation.Immutable;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,30 +23,17 @@ import lombok.NoArgsConstructor;
 
 @Immutable
 
-@Table(name = "usuario_endereco")
+@Table(name = "usuario_contato")
 @Entity
-public class EnderecoQuery extends AbstractAggregateRoot<EnderecoQuery> {
+public class ContatoQuery {
 
     @Id
     private final UUID id;
 
+    private final String contato;
+
+    private final String tipo;
+
     @Column(name = "usuario_id")
     private final UUID usuario;
-
-    private final String logradouro;
-
-    private final String numero;
-
-    private final String complemento;
-
-    private final String bairro;
-
-    private final String cidade;
-
-    private final String estado;
-
-    private final String cep;
-
-    private final String pais;
-
 }

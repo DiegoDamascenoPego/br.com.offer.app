@@ -1,4 +1,4 @@
-package br.com.offer.app.infra.openapi;
+package br.com.offer.infra.openapi;
 
 import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
 import org.springdoc.core.models.GroupedOpenApi;
@@ -37,9 +37,9 @@ public class SpringDocConfig {
             .externalDocs(new ExternalDocumentation()
                 .description("Documentação completa")
                 .url("https://github.com/DiegoDamascenoPego/br.com.offer.app"))
-            .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+            .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
             .components(new Components()
-                .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                .addSecuritySchemes(SECURITY_SCHEME_NAME, new SecurityScheme()
                     .type(SecurityScheme.Type.HTTP)
                     .scheme("bearer")
                     .bearerFormat("JWT")
@@ -141,13 +141,13 @@ public class SpringDocConfig {
 
                     // Adiciona 400 apenas para operações POST, PUT, PATCH (que recebem dados)
                     String httpMethod = getHttpMethod(operation, pathItem);
-                    if (("POST".equals(httpMethod) || "PUT".equals(httpMethod) || "PATCH".equals(httpMethod))
+                    if (("POST" .equals(httpMethod) || "PUT" .equals(httpMethod) || "PATCH" .equals(httpMethod))
                         && responses.get("400") == null) {
                         responses.addApiResponse("400", createErrorResponse("Parâmetros inválidos"));
                     }
 
                     // Adiciona 404 apenas para operações GET, PUT, DELETE que usam ID (operações específicas)
-                    if (("GET".equals(httpMethod) || "PUT".equals(httpMethod) || "DELETE".equals(httpMethod))
+                    if (("GET" .equals(httpMethod) || "PUT" .equals(httpMethod) || "DELETE" .equals(httpMethod))
                         && hasPathParameter(pathItem) && responses.get("404") == null) {
                         responses.addApiResponse("404", createErrorResponse("Recurso não encontrado"));
                     }
