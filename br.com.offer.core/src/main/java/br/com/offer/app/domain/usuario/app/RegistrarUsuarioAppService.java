@@ -10,12 +10,15 @@ import br.com.offer.app.domain.usuario.model.Usuario;
 import br.com.offer.app.domain.usuario.model.UsuarioId;
 import br.com.offer.app.domain.usuario.repository.UsuarioDomainRepository;
 import br.com.offer.app.domain.usuario.usecase.RegistrarUsuarioUseCase;
+import br.com.offer.infra.stream.Publisher;
 
 @RequiredArgsConstructor
 
 @Service
 @Transactional
 public class RegistrarUsuarioAppService implements RegistrarUsuarioUseCase {
+
+    private final Publisher publisher;
 
     private final UsuarioDomainRepository usuarioDomainRepository;
 
@@ -36,7 +39,6 @@ public class RegistrarUsuarioAppService implements RegistrarUsuarioUseCase {
     @Override
     @EventListener
     public void on(UsuarioRegistrado event) {
-        // Aqui você pode adicionar lógica adicional quando um usuário for registrado
-        // Por exemplo, enviar email de boas-vindas, criar log de auditoria, etc.
+        publisher.dispacth(event);
     }
 }

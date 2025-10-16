@@ -11,12 +11,15 @@ import br.com.offer.app.domain.usuario.model.ContatoId;
 import br.com.offer.app.domain.usuario.repository.ContatoRepository;
 import br.com.offer.app.domain.usuario.repository.UsuarioDomainRepository;
 import br.com.offer.app.domain.usuario.usecase.RegistrarContatoUseCase;
+import br.com.offer.infra.stream.Publisher;
 
 @RequiredArgsConstructor
 
 @Service
 @Transactional
 public class RegistrarContatoAppService implements RegistrarContatoUseCase {
+
+    private final Publisher publisher;
 
     private final ContatoRepository repository;
     private final UsuarioDomainRepository usuarioDomainRepository;
@@ -39,6 +42,6 @@ public class RegistrarContatoAppService implements RegistrarContatoUseCase {
     @Override
     @EventListener
     public void on(ContatoRegistrado event) {
-        // Aqui poderia ser implementada a publicação de eventos
+        publisher.dispacth(event);
     }
 }

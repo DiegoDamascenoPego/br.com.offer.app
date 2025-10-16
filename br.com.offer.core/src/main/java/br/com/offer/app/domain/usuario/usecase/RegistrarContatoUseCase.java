@@ -14,6 +14,7 @@ import lombok.Value;
 import lombok.With;
 
 import br.com.offer.app.domain.sk.TipoContato;
+import br.com.offer.app.domain.usuario.model.Contato;
 import br.com.offer.app.domain.usuario.model.ContatoId;
 import br.com.offer.app.domain.usuario.model.UsuarioId;
 
@@ -51,12 +52,12 @@ public interface RegistrarContatoUseCase {
         TipoContato tipo;
         String valor;
 
-        public static ContatoRegistrado from(ContatoId contatoId, UsuarioId usuarioId, TipoContato tipo, String valor) {
+        public static ContatoRegistrado from(Contato contato) {
             return ContatoRegistrado.builder()
-                .contatoId(contatoId)
-                .usuarioId(usuarioId)
-                .tipo(tipo)
-                .valor(valor)
+                .contatoId(contato.getId())
+                .usuarioId(contato.getUsuario())
+                .tipo(contato.getTipo())
+                .valor(contato.getValor())
                 .build();
         }
     }

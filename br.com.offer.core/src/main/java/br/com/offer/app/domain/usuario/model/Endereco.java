@@ -22,6 +22,7 @@ import br.com.offer.app.domain.sk.Estado;
 import br.com.offer.app.domain.sk.Logradouro;
 import br.com.offer.app.domain.sk.Numero;
 import br.com.offer.app.domain.sk.Pais;
+import br.com.offer.app.domain.usuario.usecase.RegistrarEnderecoUseCase;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED, force = true)
@@ -69,6 +70,8 @@ public class Endereco extends AbstractAggregateRoot<Endereco> {
         this.estado = estado;
         this.cep = cep;
         this.pais = pais;
+
+        RegistrarEnderecoUseCase.EnderecoRegistrado.from(this);
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import jakarta.persistence.Embeddable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,6 +26,7 @@ public class UsuarioId {
     @JsonValue
     UUID id;
 
+    @JsonCreator
     private UsuarioId(final UUID id) {
         this.id = id;
     }

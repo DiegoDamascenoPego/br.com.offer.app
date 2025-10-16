@@ -18,6 +18,7 @@ import br.com.offer.app.domain.sk.Estado;
 import br.com.offer.app.domain.sk.Logradouro;
 import br.com.offer.app.domain.sk.Numero;
 import br.com.offer.app.domain.sk.Pais;
+import br.com.offer.app.domain.usuario.model.Endereco;
 import br.com.offer.app.domain.usuario.model.EnderecoId;
 import br.com.offer.app.domain.usuario.model.UsuarioId;
 
@@ -64,15 +65,35 @@ public interface RegistrarEnderecoUseCase {
     @Builder(access = PRIVATE)
     class EnderecoRegistrado {
 
-        EnderecoId enderecoId;
-        UsuarioId usuarioId;
-        String tipoEndereco;
+        EnderecoId id;
 
-        public static EnderecoRegistrado from(EnderecoId enderecoId, UsuarioId usuarioId, String tipoEndereco) {
+        UsuarioId usuario;
+
+        Logradouro logradouro;
+
+        Numero numero;
+
+        Complemento complemento;
+
+        Bairro bairro;
+
+        Cidade cidade;
+
+        Estado estado;
+
+        Cep cep;
+
+        Pais pais;
+
+        public static EnderecoRegistrado from(Endereco endereco) {
             return EnderecoRegistrado.builder()
-                .enderecoId(enderecoId)
-                .usuarioId(usuarioId)
-                .tipoEndereco(tipoEndereco)
+                .id(endereco.getId())
+                .usuario(endereco.getUsuario())
+                .logradouro(endereco.getLogradouro())
+                .numero(endereco.getNumero())
+                .complemento(endereco.getComplemento())
+                .bairro(endereco.getBairro())
+                .cidade(endereco.getCidade())
                 .build();
         }
     }

@@ -1,8 +1,10 @@
 package br.com.offer.infra.stream;
 
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -22,7 +24,11 @@ public class MessagingRabbitmqConfiguration {
 
     @Bean
     Queue queue() {
-        return new Queue(queueName, true);
+        return QueueBuilder.durable(queueName)
+            .withArgument("x-dead-letter-exchange", deadLetterExchangeName)
+            .withArgument("x-dead-letter-routing-key", "br.com.offer.dlq")
+            .withArgument("x-message-ttl", 60000) // TTL opcional
+            .build();
     }
 
     @Bean
@@ -71,6 +77,7 @@ public class MessagingRabbitmqConfiguration {
         factory.setDefaultRequeueRejected(false);
         factory.setConcurrentConsumers(1);
         factory.setMaxConcurrentConsumers(3);
+        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         return factory;
     }
 }

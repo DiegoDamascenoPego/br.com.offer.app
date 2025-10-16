@@ -77,7 +77,7 @@ public class SpringDocConfig {
     public GroupedOpenApi leilaoApi() {
         return GroupedOpenApi.builder()
             .group("Leilão")
-            .pathsToMatch("/api/leiloes/**") // Include paths starting with /public
+            .pathsToMatch("/api/v1/leiloes/**") // Include paths starting with /public
             .build();
     }
 

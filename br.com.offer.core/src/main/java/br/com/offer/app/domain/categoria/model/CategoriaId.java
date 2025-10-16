@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import jakarta.persistence.Embeddable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,6 +23,9 @@ public class CategoriaId {
     @JsonValue
     UUID id;
 
+
+
+    @JsonCreator
     public CategoriaId(UUID value) {
         this.id = value;
     }

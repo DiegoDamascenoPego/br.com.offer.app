@@ -20,6 +20,13 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>br.com.offer</groupId>
+            <artifactId>br.com.offer.infra</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Spring Web - para Controllers -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

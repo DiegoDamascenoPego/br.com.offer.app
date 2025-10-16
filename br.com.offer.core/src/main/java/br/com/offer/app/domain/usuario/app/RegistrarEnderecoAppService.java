@@ -11,12 +11,16 @@ import br.com.offer.app.domain.usuario.model.EnderecoId;
 import br.com.offer.app.domain.usuario.repository.EnderecoRepository;
 import br.com.offer.app.domain.usuario.repository.UsuarioDomainRepository;
 import br.com.offer.app.domain.usuario.usecase.RegistrarEnderecoUseCase;
+import br.com.offer.infra.stream.Publisher;
 
 @RequiredArgsConstructor
 
 @Service
 @Transactional
 public class RegistrarEnderecoAppService implements RegistrarEnderecoUseCase {
+
+    private final Publisher publisher;
+
     private final UsuarioDomainRepository usuarioDomainRepository;
     private final EnderecoRepository enderecoRepository;
 
@@ -45,8 +49,7 @@ public class RegistrarEnderecoAppService implements RegistrarEnderecoUseCase {
     @Override
     @EventListener
     public void on(EnderecoRegistrado event) {
-        // Aqui você pode implementar lógica adicional quando um endereço é registrado
-        // Por exemplo, publicar eventos para outros bounded contexts
+        publisher.dispacth(event);
     }
 
 }
