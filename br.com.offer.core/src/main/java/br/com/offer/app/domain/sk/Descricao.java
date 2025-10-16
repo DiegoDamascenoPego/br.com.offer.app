@@ -7,6 +7,8 @@ import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.AccessLevel;
@@ -27,6 +29,7 @@ public class Descricao extends SimpleValueObject<String> {
     @NotBlank(message = "{Descricao.NotBlank}")
     @Size(max = 128, message = "{Descricao.Size}")
     @Column(name = "descricao")
+    @JsonValue
     final String value;
 
     private Descricao(final String value) {

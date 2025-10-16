@@ -1,5 +1,7 @@
 package br.com.offer.app.domain.categoria.model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.UUID;
 
 import jakarta.persistence.Embeddable;
@@ -18,7 +20,9 @@ import lombok.Value;
 
 @Embeddable
 @Schema(type = "string", format = "uuid", description = "Identificador único da categoria")
-public class CategoriaId {
+public class CategoriaId implements Serializable {
+
+    @Serial private static final long serialVersionUID = 4003447708600454200L;
 
     @JsonValue
     UUID id;

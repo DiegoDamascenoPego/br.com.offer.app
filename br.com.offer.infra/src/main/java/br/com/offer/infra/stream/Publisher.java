@@ -24,7 +24,7 @@ public class Publisher {
     public void dispacth(Object message) {
         try {
             logger.info("Enviando mensagem com routing key: {} - Mensagem: {}", routingKey, message);
-            rabbitTemplate.convertAndSend(MessagingRabbitmqConfiguration.topicExchangeName, routingKey, mapper.writeValueAsString(message));
+            rabbitTemplate.convertAndSend(MessagingRabbitmqConfiguration.topicExchangeName, routingKey, message);
             logger.info("Mensagem enviada com sucesso");
         } catch (Exception e) {
             logger.error("Erro ao enviar mensagem: {}", e.getMessage(), e);

@@ -42,14 +42,8 @@ public interface RegistrarUsuarioUseCase {
         TipoUsuario tipo;
     }
 
-    @Value
     @Builder(access = PRIVATE)
-    class UsuarioRegistrado {
-
-        UsuarioId id;
-        Nome nome;
-        Documento documento;
-        TipoUsuario tipo;
+    record UsuarioRegistrado(UsuarioId id, Nome nome, Documento documento, TipoUsuario tipo) {
 
         public static UsuarioRegistrado from(Usuario usuario) {
             return UsuarioRegistrado.builder()

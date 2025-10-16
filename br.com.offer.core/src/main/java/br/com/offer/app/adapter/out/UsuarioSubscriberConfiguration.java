@@ -17,7 +17,7 @@ public class UsuarioSubscriberConfiguration {
         return new AbstractReceiver<UsuarioRegistrado>(UsuarioRegistrado.class) {
             @Override
             public void receiveMessage(final UsuarioRegistrado message) {
-                System.out.println("Usuário registrado: " + message.getId() + " - " + message.getNome());
+                System.out.println("Usuário registrado: " + message.id() + " - " + message.nome());
             }
         };
 
