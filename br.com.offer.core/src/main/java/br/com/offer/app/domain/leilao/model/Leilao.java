@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PROTECTED;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -21,6 +20,9 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import br.com.offer.app.domain.sk.Descricao;
+import br.com.offer.app.domain.sk.Observacao;
+
 @Getter
 @NoArgsConstructor(access = PROTECTED, force = true)
 
@@ -33,14 +35,12 @@ public class Leilao extends AbstractAggregateRoot<Leilao> {
     @AttributeOverride(name = LeilaoId.ATTR, column = @Column(name = "id"))
     private LeilaoId id;
 
-    @Column(name = "descricao", length = 128)
-    private String descricao;
+    private Descricao descricao;
 
     @Column(name = "localizacao", columnDefinition = "text")
     private String localizacao;
 
-    @Column(name = "observacao", length = 128)
-    private String observacao;
+    private Observacao observacao;
 
     @Column(name = "lance_inicial", precision = 9, scale = 2)
     private BigDecimal lanceInicial;
@@ -48,11 +48,7 @@ public class Leilao extends AbstractAggregateRoot<Leilao> {
     @Column(name = "lote", length = 64)
     private String lote;
 
-    @Column(name = "inicio")
-    private LocalDateTime inicio;
-
-    @Column(name = "termino")
-    private LocalDateTime termino;
+    private Periodo periodo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_lance", length = 64)
@@ -68,8 +64,7 @@ public class Leilao extends AbstractAggregateRoot<Leilao> {
         this.localizacao = requireNonNull(builder.getLocalizacao());
         this.observacao = builder.getObservacao();
         this.lanceInicial = requireNonNull(builder.getLanceInicial());
-        this.inicio = requireNonNull(builder.getInicio());
-        this.termino = requireNonNull(builder.getTermino());
+        this.periodo = requireNonNull(builder.getPeriodo());
         this.tipoLance = requireNonNull(builder.getTipoLance());
 
         this.lote = builder.getLote();

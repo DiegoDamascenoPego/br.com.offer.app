@@ -30,8 +30,7 @@ public class RegistrarLeilaoAppService implements RegistrarLeilaoUseCase {
             .localizacao(command.getLocalizacao())
             .lanceInicial(command.getLanceInicial())
             .lote(command.getLote())
-            .inicio(command.getInicio())
-            .termino(command.getTermino())
+            .periodo(command.getPeriodo())
             .tipoLance(command.getTipoLance())
             .build();
 

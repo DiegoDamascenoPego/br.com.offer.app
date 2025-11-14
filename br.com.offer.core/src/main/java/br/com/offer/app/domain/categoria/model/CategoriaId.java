@@ -22,6 +22,8 @@ import lombok.Value;
 @Schema(type = "string", format = "uuid", description = "Identificador único da categoria")
 public class CategoriaId implements Serializable {
 
+    public static final String ATTR = "id";
+
     @Serial private static final long serialVersionUID = 4003447708600454200L;
 
     @JsonValue

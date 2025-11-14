@@ -3,7 +3,6 @@ package br.com.offer.app.domain.leilao.usecase;
 import static lombok.AccessLevel.PRIVATE;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +16,10 @@ import lombok.Value;
 
 import br.com.offer.app.domain.leilao.model.Leilao;
 import br.com.offer.app.domain.leilao.model.LeilaoId;
+import br.com.offer.app.domain.leilao.model.Periodo;
 import br.com.offer.app.domain.leilao.model.TipoLance;
+import br.com.offer.app.domain.sk.Descricao;
+import br.com.offer.app.domain.sk.Observacao;
 
 public interface RegistrarLeilaoUseCase {
 
@@ -29,14 +31,11 @@ public interface RegistrarLeilaoUseCase {
     @Builder
     class RegistrarLeilao {
 
+        @Valid
         @NotNull(message = "{Leilao.descricao.NotNull}")
-        @Size(max = 128, message = "{Leilao.descricao.Size}")
-        @Schema(description = "Descrição do leilão", example = "Leilão de imóveis urbanos", type = "string", maxLength = 128)
-        String descricao;
+        Descricao descricao;
 
-        @Size(max = 128, message = "{Leilao.observacao.Size}")
-        @Schema(description = "Observações do leilão", example = "Leilão com visitação prévia obrigatória", type = "string", maxLength = 128)
-        String observacao;
+        Observacao observacao;
 
         @Schema(description = "Localização do leilão", example = "Rua das Flores, 123 - São Paulo/SP", type = "string")
         String localizacao;
@@ -49,13 +48,9 @@ public interface RegistrarLeilaoUseCase {
         @Schema(description = "Identificação do lote", example = "LOTE-001", type = "string", maxLength = 64)
         String lote;
 
-        @NotNull(message = "{Leilao.inicio.NotNull}")
-        @Schema(description = "Data e hora de início do leilão", example = "2024-01-15T10:00:00", type = "string", format = "date-time")
-        LocalDateTime inicio;
-
-        @NotNull(message = "{Leilao.termino.NotNull}")
-        @Schema(description = "Data e hora de término do leilão", example = "2024-01-15T18:00:00", type = "string", format = "date-time")
-        LocalDateTime termino;
+        @Valid
+        @NotNull(message = "{Leilao.periodo.NotNull}")
+        Periodo periodo;
 
         @Valid
         @NotNull(message = "{Leilao.tipoLance.NotNull}")
@@ -68,13 +63,12 @@ public interface RegistrarLeilaoUseCase {
     class LeilaoRegistrado {
 
         LeilaoId id;
-        String descricao;
-        String observacao;
+        Descricao descricao;
+        Observacao observacao;
         String localizacao;
         BigDecimal lanceInicial;
         String lote;
-        LocalDateTime inicio;
-        LocalDateTime termino;
+        Periodo periodo;
         TipoLance tipoLance;
 
         public static LeilaoRegistrado from(Leilao leilao) {
@@ -85,8 +79,7 @@ public interface RegistrarLeilaoUseCase {
                 .localizacao(leilao.getLocalizacao())
                 .lanceInicial(leilao.getLanceInicial())
                 .lote(leilao.getLote())
-                .inicio(leilao.getInicio())
-                .termino(leilao.getTermino())
+                .periodo(leilao.getPeriodo())
                 .tipoLance(leilao.getTipoLance())
                 .build();
         }

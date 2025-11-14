@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS categoria (
 
 CREATE TABLE IF NOT EXISTS objeto (
     id uuid NOT NULL,
+    leilao_id uuid NOT NULL,
     row_version int2 DEFAULT 0 NOT NULL,
     row_created_at timestamp DEFAULT now() NOT NULL,
     row_updated_at timestamp DEFAULT now() NOT NULL,
@@ -73,6 +74,7 @@ CREATE TABLE IF NOT EXISTS objeto (
     deleted bool DEFAULT false NOT NULL,
 
     CONSTRAINT objeto_pk PRIMARY KEY (id),
+    CONSTRAINT fk_objeto_leilao FOREIGN KEY (leilao_id) REFERENCES leilao(id),
     CONSTRAINT fk_objeto_categoria FOREIGN KEY (categoria_id) REFERENCES categoria(id)
 );
 
@@ -83,10 +85,10 @@ CREATE TABLE IF NOT EXISTS leilao (
     row_created_at timestamp DEFAULT now() NOT NULL,
     row_updated_at timestamp DEFAULT now() NOT NULL,
 
-    objeto_id uuid NOT NULL,
     descricao varchar(128) NOT NULL,
     observacao varchar(128) NULL,
     localizacao varchar(256) NULL,
+    lance_inicial decimal(9,2) NULL,
     lance_final decimal(9,2) NULL,
     lote varchar(64) NOT NULL,
     inicio timestamp NOT NULL,
@@ -95,8 +97,7 @@ CREATE TABLE IF NOT EXISTS leilao (
     tipo_lance varchar(64) NOT NULL,
     deleted bool DEFAULT false NOT NULL,
 
-    CONSTRAINT leilao_pk PRIMARY KEY (id),
-    CONSTRAINT fk_leilao_objeto FOREIGN KEY (objeto_id) REFERENCES objeto(id)
+    CONSTRAINT leilao_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS lance (

@@ -1,24 +1,25 @@
 package br.com.offer.app.domain.leilao.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import lombok.Getter;
+
+import br.com.offer.app.domain.sk.Descricao;
+import br.com.offer.app.domain.sk.Observacao;
 
 @Getter
 public class LeilaoBuilder {
 
     private LeilaoId id;
-    private String descricao;
+    private Descricao descricao;
     private String localizacao;
-    private String observacao;
+    private Observacao observacao;
     private BigDecimal lanceInicial;
     private String lote;
-    private LocalDateTime inicio;
-    private LocalDateTime termino;
     private TipoLance tipoLance;
+    private Periodo periodo;
 
-    public LeilaoBuilder descricao(String descricao) {
+    public LeilaoBuilder descricao(Descricao descricao) {
         this.descricao = descricao;
         return this;
     }
@@ -28,7 +29,7 @@ public class LeilaoBuilder {
         return this;
     }
 
-    public LeilaoBuilder observacao(String observacao) {
+    public LeilaoBuilder observacao(Observacao observacao) {
         this.observacao = observacao;
         return this;
     }
@@ -43,13 +44,8 @@ public class LeilaoBuilder {
         return this;
     }
 
-    public LeilaoBuilder inicio(LocalDateTime inicio) {
-        this.inicio = inicio;
-        return this;
-    }
-
-    public LeilaoBuilder termino(LocalDateTime termino) {
-        this.termino = termino;
+    public LeilaoBuilder periodo(Periodo periodo) {
+        this.periodo = periodo;
         return this;
     }
 
@@ -64,4 +60,5 @@ public class LeilaoBuilder {
 
         return new Leilao(this);
     }
+
 }
