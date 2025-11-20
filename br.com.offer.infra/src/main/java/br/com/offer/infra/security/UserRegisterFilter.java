@@ -11,11 +11,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import lombok.RequiredArgsConstructor;
+
+@Component
 
 @RequiredArgsConstructor
 public class UserRegisterFilter extends OncePerRequestFilter {
@@ -28,14 +31,14 @@ public class UserRegisterFilter extends OncePerRequestFilter {
         throws ServletException, IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof OAuth2AuthenticationToken oauth2Token) {
+        if (authentication instanceof JwtAuthenticationToken oauth2Token) {
             Object principal = oauth2Token.getPrincipal();
 
-            if (principal instanceof OidcUser oidcUser) {
-                final Map<String, Object> claims = oidcUser.getUserInfo().getClaims();
+            if (principal instanceof Jwt jwt) {
+                final Map<String, Object> claims = jwt.getClaims();
                 if (claims.containsKey("document")) {
 
-                    final String document = claims.get("document_type") + ":" + claims.get("document");
+                    final String document = claims.get("documentType") + ":" + claims.get("document");
 
                     if (!repository.existsByDocumento(document)) {
                         User user = User.builder()

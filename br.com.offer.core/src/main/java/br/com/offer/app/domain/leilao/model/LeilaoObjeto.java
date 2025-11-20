@@ -1,30 +1,29 @@
 package br.com.offer.app.domain.leilao.model;
 
+import static br.com.offer.app.domain.leilao.usecase.RegistrarLeilaoObjetoUseCase.LeilaoObjetoRegistrado;
+
 import java.util.Set;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import lombok.Getter;
 
 @Getter
 
-@Entity
-@Table(name = "leilao")
-public class LeilaoObjeto {
+public class LeilaoObjeto extends AbstractAggregateRoot<Leilao> {
 
-    @EmbeddedId
-    @AttributeOverride(name = LeilaoId.ATTR, column = @Column(name = "id"))
-    private LeilaoId id;
+    private final LeilaoId id;
 
-    @OneToMany
-    Set<Objeto> objetos;
+    private final Set<Objeto> objetos;
 
-    public LeilaoObjeto(final Set<Objeto> objetos) {
+    public LeilaoObjeto(final LeilaoId id, final Set<Objeto> objetos) {
+        this.id = id;
         this.objetos = objetos;
+
+        registerEvent(LeilaoObjetoRegistrado.from(this));
+    }
+
+    public void addObjeto(Objeto objeto) {
+        objetos.add(objeto);
     }
 }

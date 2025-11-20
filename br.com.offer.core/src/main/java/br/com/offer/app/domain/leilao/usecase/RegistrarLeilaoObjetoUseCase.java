@@ -7,17 +7,21 @@ import java.util.Set;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Builder;
 import lombok.Value;
+import lombok.With;
 
 import br.com.offer.app.domain.categoria.model.CategoriaId;
 import br.com.offer.app.domain.leilao.model.LeilaoId;
 import br.com.offer.app.domain.leilao.model.LeilaoObjeto;
+import br.com.offer.app.domain.leilao.model.ObjetoId;
 import br.com.offer.app.domain.sk.Descricao;
 
 public interface RegistrarLeilaoObjetoUseCase {
 
-    LeilaoId handle(LeilaoId leilao, Set<RegistrarLeilaoObjeto> objetos);
+    void handle(RegistrarLeilaoObjeto command);
 
     void on(LeilaoObjetoRegistrado event);
 
@@ -25,11 +29,18 @@ public interface RegistrarLeilaoObjetoUseCase {
     @Builder
     class RegistrarLeilaoObjeto {
 
-        CategoriaId categoria;
+        @With
+        @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+        LeilaoId id;
 
-        @Valid
-        @NotNull(message = "{Leilao.descricao.NotNull}")
-        Descricao descricao;
+        Set<RegistrarObjeto> items;
+    }
+
+    record RegistrarObjeto(ObjetoId id,
+                           CategoriaId categoria,
+                           @Valid
+                           @NotNull(message = "{Leilao.descricao.NotNull}")
+                           Descricao descricao) {
 
     }
 

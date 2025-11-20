@@ -62,23 +62,6 @@ CREATE TABLE IF NOT EXISTS categoria (
     CONSTRAINT categoria_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS objeto (
-    id uuid NOT NULL,
-    leilao_id uuid NOT NULL,
-    row_version int2 DEFAULT 0 NOT NULL,
-    row_created_at timestamp DEFAULT now() NOT NULL,
-    row_updated_at timestamp DEFAULT now() NOT NULL,
-
-    categoria_id uuid NOT NULL,
-    descricao varchar(128) NOT NULL,
-    deleted bool DEFAULT false NOT NULL,
-
-    CONSTRAINT objeto_pk PRIMARY KEY (id),
-    CONSTRAINT fk_objeto_leilao FOREIGN KEY (leilao_id) REFERENCES leilao(id),
-    CONSTRAINT fk_objeto_categoria FOREIGN KEY (categoria_id) REFERENCES categoria(id)
-);
-
-
 CREATE TABLE IF NOT EXISTS leilao (
     id uuid NOT NULL,
     row_version int2 DEFAULT 0 NOT NULL,
@@ -98,6 +81,22 @@ CREATE TABLE IF NOT EXISTS leilao (
     deleted bool DEFAULT false NOT NULL,
 
     CONSTRAINT leilao_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS objeto (
+    id uuid NOT NULL,
+    leilao_id uuid NOT NULL,
+    row_version int2 DEFAULT 0 NOT NULL,
+    row_created_at timestamp DEFAULT now() NOT NULL,
+    row_updated_at timestamp DEFAULT now() NOT NULL,
+
+    categoria_id uuid NOT NULL,
+    descricao varchar(128) NOT NULL,
+    deleted bool DEFAULT false NOT NULL,
+
+    CONSTRAINT objeto_pk PRIMARY KEY (id),
+    CONSTRAINT fk_objeto_leilao FOREIGN KEY (leilao_id) REFERENCES leilao(id),
+    CONSTRAINT fk_objeto_categoria FOREIGN KEY (categoria_id) REFERENCES categoria(id)
 );
 
 CREATE TABLE IF NOT EXISTS lance (

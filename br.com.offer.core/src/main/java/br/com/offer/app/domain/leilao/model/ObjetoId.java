@@ -1,7 +1,6 @@
 package br.com.offer.app.domain.leilao.model;
 
 import java.util.UUID;
-import java.util.function.Predicate;
 
 import jakarta.persistence.Embeddable;
 
@@ -18,8 +17,8 @@ import lombok.Value;
 @Value
 
 @Embeddable
-@Schema(type = "string", format = "uuid", description = "Identificador único do leilão")
-public class LeilaoId {
+@Schema(type = "string", format = "uuid", description = "Identificador único do objeto do leilão")
+public class ObjetoId {
 
     public static final String ATTR = "id";
 
@@ -27,16 +26,16 @@ public class LeilaoId {
     UUID id;
 
     @JsonCreator
-    private LeilaoId(final UUID id) {
+    private ObjetoId(final UUID id) {
         this.id = id;
     }
 
-    public static LeilaoId from(final String id) {
-        return new LeilaoId(UUID.fromString(id));
+    public static ObjetoId from(final String id) {
+        return new ObjetoId(UUID.fromString(id));
     }
 
-    public static LeilaoId generate() {
-        return new LeilaoId(UUID.randomUUID());
+    public static ObjetoId generate() {
+        return new ObjetoId(UUID.randomUUID());
     }
 
     public String asString() {

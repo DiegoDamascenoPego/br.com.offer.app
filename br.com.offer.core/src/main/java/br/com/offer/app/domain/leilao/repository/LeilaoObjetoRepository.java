@@ -1,14 +1,11 @@
 package br.com.offer.app.domain.leilao.repository;
 
-import java.util.UUID;
-
-import org.springframework.data.repository.Repository;
-
-import br.com.offer.app.domain.leilao.model.Leilao;
+import br.com.offer.app.domain.leilao.model.LeilaoId;
 import br.com.offer.app.domain.leilao.model.LeilaoObjeto;
 
-public interface LeilaoObjetoRepository extends Repository<LeilaoObjeto, UUID> {
+public interface LeilaoObjetoRepository {
 
+    LeilaoObjeto getById(LeilaoId id);
 
     void save(LeilaoObjeto leilaoObjeto);
 }

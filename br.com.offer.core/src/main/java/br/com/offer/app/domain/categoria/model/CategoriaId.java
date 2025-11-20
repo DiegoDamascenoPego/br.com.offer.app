@@ -29,11 +29,13 @@ public class CategoriaId implements Serializable {
     @JsonValue
     UUID id;
 
-
-
     @JsonCreator
     public CategoriaId(UUID value) {
         this.id = value;
+    }
+
+    public static CategoriaId from(final String id) {
+        return new CategoriaId(UUID.fromString(id));
     }
 
     public static CategoriaId generate() {
@@ -41,10 +43,11 @@ public class CategoriaId implements Serializable {
     }
 
     public String asString() {
-        return id.toString();
+        return  String.valueOf(id);
     }
 
     public RuntimeException notFoundException() {
         return new RuntimeException("Categoria not found: " + id);
     }
+
 }
